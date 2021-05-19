@@ -48,12 +48,26 @@ SEE_THROUGH = pygame.Surface((800, 180))
 SEE_THROUGH.set_alpha(150)
 SEE_THROUGH.fill((124, 118, 135))
 
-def draw_cloud(x, y):
-    pygame.draw.ellipse(SEE_THROUGH, cloud_color, [x, y + 8, 10, 10])
-    pygame.draw.ellipse(SEE_THROUGH, cloud_color, [x + 6, y + 4, 8, 8])
-    pygame.draw.ellipse(SEE_THROUGH, cloud_color, [x + 10, y, 16, 16])
-    pygame.draw.ellipse(SEE_THROUGH, cloud_color, [x + 20, y + 8, 10, 10])
-    pygame.draw.rect(SEE_THROUGH, cloud_color, [x + 6, y + 8, 18, 10])
+
+def draw_cloud(x2, y2):
+    pygame.draw.ellipse(SEE_THROUGH, cloud_color, [x2, y2 + 8, 10, 10])
+    pygame.draw.ellipse(SEE_THROUGH, cloud_color, [x2 + 6, y2 + 4, 8, 8])
+    pygame.draw.ellipse(SEE_THROUGH, cloud_color, [x2 + 10, y2, 16, 16])
+    pygame.draw.ellipse(SEE_THROUGH, cloud_color, [x2 + 20, y2 + 8, 10, 10])
+    pygame.draw.rect(SEE_THROUGH, cloud_color, [x2 + 6, y2 + 8, 18, 10])
+
+
+def draw_fence():
+    """This function draw fence in particular place of stadium"""
+    pass
+
+
+def key_down_handler(event):
+    global lights_on, day
+    if event.key == pygame.K_l:
+        lights_on = not lights_on
+    elif event.key == pygame.K_d:
+        day = not day
 
 
 # Config
@@ -83,10 +97,8 @@ while not done:
         if event.type == pygame.QUIT:
             done = True
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_l:
-                lights_on = not lights_on
-            elif event.key == pygame.K_d:
-                day = not day
+            key_down_handler(event)
+
 
     # Game logic (Check for collisions, update points, etc.)
     ''' leave this section alone for now ''' 
@@ -149,15 +161,15 @@ while not done:
     if day:
         pygame.draw.ellipse(screen, BRIGHT_YELLOW, [520, 50, 40, 40])
     else:
-        pygame.draw.ellipse(screen, WHITE, [520, 50, 40, 40]) 
+        pygame.draw.ellipse(screen, WHITE, [520, 50, 40, 40])
         pygame.draw.ellipse(screen, sky_color, [530, 45, 40, 40])
 
-    
-    
+
+
     for c in clouds:
         draw_cloud(c[0], c[1])
-    screen.blit(SEE_THROUGH, (0, 0))   
-    
+    screen.blit(SEE_THROUGH, (0, 0))
+
 
     #out of bounds lines
     pygame.draw.line(screen, WHITE, [0, 580], [800, 580], 5)
